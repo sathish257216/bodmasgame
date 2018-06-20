@@ -1,0 +1,8 @@
+{
+  "name": "Bodmas",
+  "app_id": "4c0bc0c3",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
