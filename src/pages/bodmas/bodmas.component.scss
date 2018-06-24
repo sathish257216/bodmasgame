@@ -1,0 +1,32 @@
+app-bodmas {
+    .title-container {
+        position: relative;
+    }
+    .question {
+        margin:10px;
+        font-size: 50px;
+        .output-text {
+            width: 200px;
+            background-color: rgb(255, 229, 80);            
+        }
+        .pass {
+            background-color: palegreen;
+        }
+        .fail {
+            background-color: orangered;
+        }
+    }
+    .num-text {
+        float:left;
+        width:70px;
+        height:70px;
+        margin:25px;
+        font-size: 50px;
+        background-color:salmon; 
+        text-align: center;
+        cursor: pointer;
+    }
+    .btn-container{
+        clear:both;
+    }
+}

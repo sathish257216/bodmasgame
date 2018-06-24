@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      BODMAS GAME
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="title-container">
+    <h1>Level: {{level}}</h1>
+    <h1>Total Score: {{totalScore}}</h1>
+    <h1>Score: {{score}}</h1>
+    <h1 *ngIf="level<3">{{operation.label}}</h1>
+  </div>
+  <div class="question">
+    <span class="value-text">{{question}} =</span>
+    <span class="output-text {{status}}">{{output}}</span>
+  </div>
+  <div class="num-pad">
+    <div class="num-text" *ngFor="let np of numberPad" (click)="onNumClick(np)">{{np}}</div>
+  </div>
+  <div class="btn-container">
+    <button ion-button (click)="onClear($event)">Clear</button>
+    <button ion-button (click)="onReset($event)">Reset</button>
+    <button ion-button (click)="onNewGame($event)">New Game</button>
+  </div>
+</ion-content>
