@@ -1,6 +1,9 @@
 <ion-content padding>
   <div class="title-container">
-    <h1>Sucess!!!. Level {{level}}</h1>
+    <h1>Sucess!!!. Level {{level - 1}} Completed</h1>
   </div>
-  <button (click)="closeModal($event)">Play</button>
+  <div *ngIf="level==5">
+    Game Completed
+  </div>
+  <button (click)="closeModal($event)">Continue</button>
 </ion-content>

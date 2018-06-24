@@ -20,10 +20,10 @@ export class BodmasComponent implements OnInit {
     score: number = 0;
     operation: ISymbol;
     numberPad: number[] = [];
-    level: number = 3;
+    level: number = 1;
     totalScore: number = 0;
     private scoreValue = [10, 15, 20, 25];
-    private sucessScore = [100, 200, 300, 400];
+    private sucessScore = [100, 200, 300, 100, 500];
     private expectedOutput = 0;
 
     constructor(public navCtrl: NavController, public modalCtrl: ModalController,
@@ -39,9 +39,11 @@ export class BodmasComponent implements OnInit {
 
     initGame() {
         this.storage.get('bodmas').then((storedValue: IStoredValue) => {
-            this.level = storedValue.level;
-            this.score = storedValue.score;
-            this.totalScore = storedValue.totalScore;
+            if (storedValue) {
+                this.level = storedValue.level;
+                this.score = storedValue.score;
+                this.totalScore = storedValue.totalScore;
+            }
             console.log('storedValue', storedValue);
         });
     }
@@ -49,15 +51,23 @@ export class BodmasComponent implements OnInit {
         if (this.level === 1 || this.level == 2) {
             this.question = this.getFirstQuery();
         } else if (this.level === 3) {
-            this.thirdLevel();
+            this.question = this.thirdLevel();
+        } else if (this.level === 4) {
+            this.fourthLevel();
         }
+        this.expectedOutput = this.getExpectedOutput();
+    }
+
+    getExpectedOutput() {
+        return (new Function('return ' + this.question))();
+    }
+
+    fourthLevel() {
+        this.question = ` ${this.thirdLevel()} ${this.bodmasService.getSymbol(this.level).value} ( ${this.getFirstQuery()} )`;
     }
 
     thirdLevel() {
-        this.question = `( ${this.getFirstQuery()} ) ${this.bodmasService.getSymbol(this.level).value} ( ${this.getFirstQuery()} )`;
-        this.expectedOutput = (new Function('return ' + this.question))();
-        console.log("question", this.question);
-        console.log((new Function('return ' + this.question))());
+        return `( ${this.getFirstQuery()} ) ${this.bodmasService.getSymbol(this.level).value} ( ${this.getFirstQuery()} )`;
     }
 
     getFirstQuery() {
@@ -84,7 +94,7 @@ export class BodmasComponent implements OnInit {
     }
 
     onNewGame(event) {
-        this.level = 0;
+        this.level = 1;
         this.score = 0;
         this.totalScore = 0;
         this.storeGameValues();
@@ -94,7 +104,6 @@ export class BodmasComponent implements OnInit {
     onNumClick(value) {
         this.output += value;
         this.isCorrect = parseInt(this.output) === this.expectedOutput;
-        console.log("this.isCorrect", this.isCorrect);
         this.status = this.isCorrect ? 'pass' : 'fail';
         this.cdr.detectChanges();
         if (this.isCorrect) {
@@ -106,15 +115,12 @@ export class BodmasComponent implements OnInit {
     }
 
     updateLevel() {
-        if (this.level === 1 && this.score >= this.sucessScore[this.level - 1]) {
-            this.onLevelCleared();
-        } else if (this.level === 2 && this.score >= this.sucessScore[this.level - 1]) {
-            this.onLevelCleared();
-        } else if (this.level === 3 && this.score >= this.sucessScore[this.level - 1]) {
+        if (this.score >= this.sucessScore[this.level - 1]) {
             this.onLevelCleared();
         }
         this.storeGameValues();
     }
+
 
     onLevelCleared() {
         this.level++;

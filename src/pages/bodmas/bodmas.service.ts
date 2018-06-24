@@ -3,7 +3,7 @@ import { ISymbol } from './bodmas.model';
 
 @Injectable()
 export class BodmasService {
-    private randomValue = [9, 99, 9, 99];
+    private randomValue = [9, 99, 9, 9];
     private symbol: ISymbol[] = [
         { label: 'Multiplication', value: '*' },
         { label: 'Addition', value: '+' },
@@ -27,9 +27,9 @@ export class BodmasService {
     }
 
     getSymbol(level): ISymbol {
-        if (level < 3) {
+        /*if (level < 3) {
             return this.symbol[Math.round(Math.random() * 3)];
-        }
+        }*/
         const randomValue = Math.round(Math.random() * 2);
         return this.symbol[randomValue];
     }
